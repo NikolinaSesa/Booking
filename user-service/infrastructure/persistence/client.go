@@ -8,7 +8,7 @@ import (
 )
 
 func GetClient(host, port string) (*mongo.Client, error) {
-	uri := fmt.Sprintf("mongodb+srv://draga:draga@cluster0.dlhjqkp.mongodb.net/?retryWrites=true&w=majority")
+	uri := fmt.Sprintf("mongodb://%s:%s", host, port)
 	options := options.Client().ApplyURI(uri)
 	return mongo.Connect(context.TODO(), options)
 
