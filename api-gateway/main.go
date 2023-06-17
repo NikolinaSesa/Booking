@@ -12,6 +12,6 @@ func main() {
 	fmt.Println("hello api_gateway")
 
 	config := config.NewConfig()
-	server := startup.NewServer(config)
-	server.Start()
+	_ = startup.NewServer(config)
+	//server.Start()
 }

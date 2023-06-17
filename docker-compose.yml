@@ -9,9 +9,8 @@ services:
       dockerfile: ./user-service/Dockerfile
     restart: on-failure
     environment:
-      USER_DB_HOST: ${USER_DB_HOST}
-      USER_DB_PORT: ${USER_DB_PORT}
-      PORT: ${USER_SERVICE_PORT}
+      #PORT: ${USER_SERVICE_PORT}
+      USER_SERVICE_ADDRESS: ${USER_SERVICE_ADDRESS}
     depends_on:
       - user_db
     networks:
@@ -24,14 +23,18 @@ services:
       context: .
       dockerfile: ./api-gateway/Dockerfile
     restart: on-failure
-    ports:
-      - ${GATEWAY_PORT}:${GATEWAY_PORT}
     environment:
-      GATEWAY_PORT: ${GATEWAY_PORT}
-      USER_SERVICE_HOST: ${USER_SERVICE_HOST}
-      USER_SERVICE_PORT: ${USER_SERVICE_PORT}
+      #GATEWAY_PORT: ${GATEWAY_PORT}
+      #USER_SERVICE_HOST: ${USER_SERVICE_HOST}
+      #USER_SERVICE_PORT: ${USER_SERVICE_PORT}
+      USER_SERVICE_ADDRESS: user_service:8000
+      GATEWAY_ADDRESS: ${GATEWAY_ADDRESS}
+    depends_on:
+      - user-service
     networks:
       - network
+    ports:
+      - "8000:8000"
 
   user_db:
     image: mongo

@@ -1,19 +1,23 @@
 package startup
 
 import (
-	"fmt"
 	"log"
 	"net"
+	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/NikolinaSesa/Booking/user-service/application"
 	"github.com/NikolinaSesa/Booking/user-service/domain"
 	"github.com/NikolinaSesa/Booking/user-service/infrastructure/api"
 	"github.com/NikolinaSesa/Booking/user-service/infrastructure/persistence"
-	"github.com/NikolinaSesa/Booking/user-service/proto"
 	"github.com/NikolinaSesa/Booking/user-service/startup/config"
 	"go.mongodb.org/mongo-driver/mongo"
 
+	user "github.com/NikolinaSesa/Booking/user-service/proto"
+
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 type Server struct {
@@ -38,7 +42,7 @@ func (s *Server) Start() {
 }
 
 func (s *Server) initMongoClient() *mongo.Client {
-	client, err := persistence.GetClient(s.config.UserDBHost, s.config.UserDBPort)
+	client, err := persistence.GetClient("", "")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -68,15 +72,45 @@ func (s *Server) initUserHandler(service *application.UserService) *api.UserHand
 
 func (server *Server) startGrpcServer(userHandler *api.UserHandler) {
 
-	listener, err := net.Listen("tcp", fmt.Sprintf(":%s", server.config.Port))
-	fmt.Println("***************************************Tu sam", listener, err)
+	/*
+		listener, err := net.Listen("tcp", fmt.Sprintf(":%s", server.config.Port))
+		fmt.Println("***************************************Tu sam", listener, err)
+		if err != nil {
+			log.Fatalf("Failed to listen: #{err}")
+		}
+		grpcServer := grpc.NewServer()
+		proto.RegisterUserServiceServer(grpcServer, userHandler)
+		if err := grpcServer.Serve(listener); err != nil {
+			log.Fatalf("Failed to serve: #{err}")
+		}
+	*/
+	listener, err := net.Listen("tcp", server.config.Address)
 	if err != nil {
-		log.Fatalf("Failed to listen: #{err}")
+		log.Fatalln(err)
 	}
+	defer func(listener net.Listener) {
+		err := listener.Close()
+		if err != nil {
+			log.Fatal(err)
+		}
+	}(listener)
+
 	grpcServer := grpc.NewServer()
-	proto.RegisterUserServiceServer(grpcServer, userHandler)
-	if err := grpcServer.Serve(listener); err != nil {
-		log.Fatalf("Failed to serve: #{err}")
-	}
+	reflection.Register(grpcServer)
+
+	user.RegisterUserServiceServer(grpcServer, userHandler)
+
+	go func() {
+		if err := grpcServer.Serve(listener); err != nil {
+			log.Fatal("server error: ", err)
+		}
+	}()
+
+	stopCh := make(chan os.Signal)
+	signal.Notify(stopCh, syscall.SIGTERM)
+
+	<-stopCh
+
+	grpcServer.Stop()
 
 }
