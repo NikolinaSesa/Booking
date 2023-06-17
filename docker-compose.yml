@@ -9,11 +9,27 @@ services:
       dockerfile: ./user-service/Dockerfile
     restart: on-failure
     environment:
-      PORT: ${USER_SERVICE_PORT}
       USER_DB_HOST: ${USER_DB_HOST}
       USER_DB_PORT: ${USER_DB_PORT}
+      PORT: ${USER_SERVICE_PORT}
     depends_on:
       - user_db
+    networks:
+      - network
+
+  api-gateway:
+    image: api_gateway
+    container_name: api_gateway
+    build:
+      context: .
+      dockerfile: ./api-gateway/Dockerfile
+    restart: on-failure
+    ports:
+      - ${GATEWAY_PORT}:${GATEWAY_PORT}
+    environment:
+      GATEWAY_PORT: ${GATEWAY_PORT}
+      USER_SERVICE_HOST: ${USER_SERVICE_HOST}
+      USER_SERVICE_PORT: ${USER_SERVICE_PORT}
     networks:
       - network
 

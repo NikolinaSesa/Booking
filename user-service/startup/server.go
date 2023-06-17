@@ -1,17 +1,19 @@
 package startup
 
 import (
-	"Booking/user-service/application"
-	"Booking/user-service/domain"
-	"Booking/user-service/infrastructure/api"
-	"Booking/user-service/infrastructure/persistence"
-	"Booking/user-service/proto"
-	"Booking/user-service/startup/config"
 	"fmt"
-	"go.mongodb.org/mongo-driver/mongo"
-	"google.golang.org/grpc"
 	"log"
 	"net"
+
+	"github.com/NikolinaSesa/Booking/user-service/application"
+	"github.com/NikolinaSesa/Booking/user-service/domain"
+	"github.com/NikolinaSesa/Booking/user-service/infrastructure/api"
+	"github.com/NikolinaSesa/Booking/user-service/infrastructure/persistence"
+	"github.com/NikolinaSesa/Booking/user-service/proto"
+	"github.com/NikolinaSesa/Booking/user-service/startup/config"
+	"go.mongodb.org/mongo-driver/mongo"
+
+	"google.golang.org/grpc"
 )
 
 type Server struct {
@@ -45,6 +47,14 @@ func (s *Server) initMongoClient() *mongo.Client {
 
 func (s *Server) initUserStore(client *mongo.Client) domain.UserStore {
 	store := persistence.NewUserMongoDBStore(client)
+	store.DeleteAll()
+
+	for _, user := range users {
+		err := store.Insert(user)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 	return store
 }
 
@@ -57,7 +67,9 @@ func (s *Server) initUserHandler(service *application.UserService) *api.UserHand
 }
 
 func (server *Server) startGrpcServer(userHandler *api.UserHandler) {
-	listener, err := net.Listen("tcp", fmt.Sprintf(":#{server.config.Port}"))
+
+	listener, err := net.Listen("tcp", fmt.Sprintf(":%s", server.config.Port))
+	fmt.Println("***************************************Tu sam", listener, err)
 	if err != nil {
 		log.Fatalf("Failed to listen: #{err}")
 	}
@@ -66,4 +78,5 @@ func (server *Server) startGrpcServer(userHandler *api.UserHandler) {
 	if err := grpcServer.Serve(listener); err != nil {
 		log.Fatalf("Failed to serve: #{err}")
 	}
+
 }

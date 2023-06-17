@@ -1,8 +1,8 @@
 package api
 
 import (
-	"Booking/user-service/domain"
-	pb "Booking/user-service/proto"
+	"github.com/NikolinaSesa/Booking/user-service/domain"
+	pb "github.com/NikolinaSesa/Booking/user-service/proto"
 )
 
 func mapUser(user *domain.User) *pb.User {

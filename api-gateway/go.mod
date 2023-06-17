@@ -1,4 +1,4 @@
-module Booking/api-gateway
+module github.com/NikolinaSesa/Booking/api-gateway
 
 go 1.20
 

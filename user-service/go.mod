@@ -1,4 +1,4 @@
-module Booking/user-service
+module github.com/NikolinaSesa/Booking/user-service
 
 go 1.20
 

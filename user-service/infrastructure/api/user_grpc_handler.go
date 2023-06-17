@@ -1,9 +1,10 @@
 package api
 
 import (
-	"Booking/user-service/application"
-	pb "Booking/user-service/proto"
 	"context"
+
+	"github.com/NikolinaSesa/Booking/user-service/application"
+	pb "github.com/NikolinaSesa/Booking/user-service/proto"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 

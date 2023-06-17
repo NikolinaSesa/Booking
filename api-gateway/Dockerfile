@@ -4,6 +4,7 @@ WORKDIR /app
 
 COPY ./api-gateway/go.mod ./api-gateway/go.sum ./
 
+COPY /user-service ../user-service
 
 RUN go mod download
 
@@ -19,6 +20,6 @@ WORKDIR /root/
 
 COPY --from=builder /app/main .
 
-EXPOSE 8080
+EXPOSE 8000
 
 CMD ["./main"]
