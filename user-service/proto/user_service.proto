@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option go_package = "github.com/NikolinaSesa/Booking/user-service/proto";
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+service UserService{
+  rpc Get(GetRequest) returns(GetResponse){
+    option (google.api.http) = {
+      get: "/users/user/{id}"
+    };
+  }
+}
+
+message GetRequest {
+  string id = 1;
+}
+
+message GetResponse{
+  User user = 1;
+}
+
+message User {
+  string id = 1;
+  string firstName = 2;
+  string lastName = 3;
+  string role = 4;
+}

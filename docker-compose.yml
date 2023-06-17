@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  user-service:
+    image: user_service
+    container_name: user_service
+    build:
+      context: .
+      dockerfile: ./user-service/Dockerfile
+    restart: on-failure
+    environment:
+      #PORT: ${USER_SERVICE_PORT}
+      USER_SERVICE_ADDRESS: ${USER_SERVICE_ADDRESS}
+    networks:
+      - network
+
+  apartment-service:
+    image: apartment_service
+    container_name: apartment_service
+    build:
+      context: .
+      dockerfile: ./apartment-service/Dockerfile
+    restart: on-failure
+    environment:
+      APARTMENT_SERVICE_ADDRESS: ${APARTMENT_SERVICE_ADDRESS}
+    networks:
+      - network
+
+  api-gateway:
+    image: api_gateway
+    container_name: api_gateway
+    build:
+      context: .
+      dockerfile: ./api-gateway/Dockerfile
+    restart: on-failure
+    environment:
+      #GATEWAY_PORT: ${GATEWAY_PORT}
+      #USER_SERVICE_HOST: ${USER_SERVICE_HOST}
+      #USER_SERVICE_PORT: ${USER_SERVICE_PORT}
+      USER_SERVICE_ADDRESS: user_service:8000
+      APARTMENT_SERVICE_ADDRESS: apartment_service:8000
+      GATEWAY_ADDRESS: ${GATEWAY_ADDRESS}
+    depends_on:
+      - user-service
+      - apartment-service
+    networks:
+      - network
+    ports:
+      - "8000:8000"
+
+networks:
+  network:
+    driver: bridge
