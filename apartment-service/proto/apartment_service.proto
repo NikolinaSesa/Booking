@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option go_package = "./proto";
+
+import "google/api/annotations.proto";
+
+service ApartmentService{
+  rpc Get(GetRequest) returns(GetResponse){
+    option (google.api.http) = {
+      get: "/apartments/{id}"
+    };
+  }
+}
+
+message GetRequest {
+  string id = 1;
+}
+
+message GetResponse{
+  Apartment apartment = 1;
+}
+
+message Apartment {
+  string id = 1;
+  string name = 2;
+  string location = 3;
+}
