@@ -1,8 +1,9 @@
 package persistence
 
 import (
-	"Booking/user-service/domain"
 	"context"
+
+	"github.com/NikolinaSesa/Booking/user-service/domain"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -32,6 +33,19 @@ func (s *UserMongoDBStore) Get(id primitive.ObjectID) (*domain.User, error) {
 func (s *UserMongoDBStore) GetAll() ([]*domain.User, error) {
 	filter := bson.D{{}}
 	return s.filter(filter)
+}
+
+func (s *UserMongoDBStore) Insert(user *domain.User) error {
+	result, err := s.users.InsertOne(context.TODO(), user)
+	if err != nil {
+		return err
+	}
+	user.Id = result.InsertedID.(primitive.ObjectID)
+	return nil
+}
+
+func (s *UserMongoDBStore) DeleteAll() {
+	s.users.DeleteMany(context.TODO(), bson.D{{}})
 }
 
 func (s *UserMongoDBStore) filter(filter interface{}) ([]*domain.User, error) {

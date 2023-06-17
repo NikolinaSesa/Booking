@@ -1,7 +1,7 @@
 package application
 
 import (
-	"Booking/user-service/domain"
+	"github.com/NikolinaSesa/Booking/user-service/domain"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
