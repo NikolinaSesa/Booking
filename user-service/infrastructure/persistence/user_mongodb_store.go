@@ -30,6 +30,11 @@ func (s *UserMongoDBStore) Get(id primitive.ObjectID) (*domain.User, error) {
 	return s.filterOne(filter)
 }
 
+func (s *UserMongoDBStore) GetUserByUsernameAndPassword(username string, password string) (*domain.User, error) {
+	filter := bson.M{"username": username, "password": password}
+	return s.filterOne(filter)
+}
+
 func (s *UserMongoDBStore) GetAll() ([]*domain.User, error) {
 	filter := bson.D{{}}
 	return s.filter(filter)

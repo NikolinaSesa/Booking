@@ -59,3 +59,20 @@ func (h *UserHandler) GetAll(ctx context.Context, request *pb.GetAllRequest) (*p
 
 	return response, nil
 }
+
+func (h *UserHandler) GetUserByUsernameAndPassword(ctx context.Context, loginRequest *pb.LoginRequest) (*pb.LoginResponse, error) {
+	username := loginRequest.Username
+	password := loginRequest.Password
+
+	User, err := h.service.GetUserByUsernameAndPassword(username, password)
+	if err != nil {
+		return nil, err
+	}
+	UserPb := mapUser(User)
+	response := &pb.LoginResponse{
+		User: UserPb,
+	}
+
+	fmt.Print("****************************************Tu sammm ", response.User.FirstName, response.User.LastName)
+	return response, nil
+}
