@@ -1,7 +1,7 @@
 package startup
 
 import (
-	"Booking/apartment-service/domain"
+	"github.com/NikolinaSesa/Booking/apartment-service/domain"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )

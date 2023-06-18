@@ -1,4 +1,4 @@
-module Booking/apartment-service
+module github.com/NikolinaSesa/Booking/apartment-service
 
 go 1.20
 

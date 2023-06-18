@@ -2,7 +2,10 @@ module github.com/NikolinaSesa/Booking/api-gateway
 
 go 1.20
 
-replace github.com/NikolinaSesa/Booking/user-service => ../user-service
+replace (
+	github.com/NikolinaSesa/Booking/apartment-service => ../apartment-service
+	github.com/NikolinaSesa/Booking/user-service => ../user-service
+)
 
 require (
 	github.com/NikolinaSesa/Booking/user-service v0.0.0-00010101000000-000000000000

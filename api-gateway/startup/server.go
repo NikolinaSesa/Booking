@@ -36,7 +36,7 @@ func (s *Server) initHandlers() {
 		fmt.Println("***************************************Tu sam")
 
 		opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
-		userEndpoint := fmt.Sprintf("%s:%s", s.config.UserHost, s.config.UserPort)
+		userEndpoint := fmt.Sprintf("%s", s.config.UserServiceAddress)
 
 		fmt.Println("***************************************Tu sam", userEndpoint)
 
@@ -45,6 +45,7 @@ func (s *Server) initHandlers() {
 			panic(err)
 		}
 	*/
+	gwmux := runtime.NewServeMux()
 
 	//user-service
 	conn, err := grpc.DialContext(context.Background(), s.config.UserServiceAddress, grpc.WithBlock(), grpc.WithTransportCredentials(insecure.NewCredentials()))
@@ -52,8 +53,6 @@ func (s *Server) initHandlers() {
 	if err != nil {
 		log.Fatal("Failed to dial server: ", err)
 	}
-
-	gwmux := runtime.NewServeMux()
 
 	client := userProto.NewUserServiceClient(conn)
 	err = userProto.RegisterUserServiceHandlerClient(context.Background(), gwmux, client)
@@ -64,6 +63,12 @@ func (s *Server) initHandlers() {
 
 	//apartment-service
 
+	_, err2 := grpc.DialContext(context.Background(), s.config.ApartmentServiceAddress, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err2 != nil {
+		log.Fatal("Failed to dial server 2: ", err2)
+	}
+
+	//
 	gwServer := &http.Server{
 		Addr:    s.config.Address,
 		Handler: gwmux,
@@ -82,8 +87,9 @@ func (s *Server) initHandlers() {
 	if err = gwServer.Close(); err != nil {
 		log.Fatalln("error while stopping server: ", err)
 	}
+
 }
 
 //func (s *Server) Start() {
-//	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", s.config.Port), s.mux))
+//	log.Fatal(http.ListenAndServe(s.config.Address, s.mux))
 //}

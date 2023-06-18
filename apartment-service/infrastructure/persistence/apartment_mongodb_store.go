@@ -3,7 +3,7 @@ package persistence
 import (
 	"context"
 
-	"Booking/apartment-service/domain"
+	"github.com/NikolinaSesa/Booking/apartment-service/domain"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"

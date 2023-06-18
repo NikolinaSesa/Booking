@@ -3,8 +3,8 @@ package api
 import (
 	"context"
 
-	"Booking/apartment-service/application"
-	pb "Booking/apartment-service/proto"
+	"github.com/NikolinaSesa/Booking/apartment-service/application"
+	pb "github.com/NikolinaSesa/Booking/apartment-service/proto"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )

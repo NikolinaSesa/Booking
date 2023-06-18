@@ -1,8 +1,9 @@
 package domain
 
 import (
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type Guest struct {
@@ -28,4 +29,5 @@ type User struct {
 	Role      string             `bson:"role" json:"role"`
 	Ratings   []Rating           `bson:"ratings"`
 	AvgRating float64            `bson:"avgRating"`
+	Mark      bool               `bson:"mark"`
 }

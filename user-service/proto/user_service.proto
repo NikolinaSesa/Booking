@@ -11,6 +11,25 @@ service UserService{
       get: "/users/user/{id}"
     };
   }
+
+  rpc GetAll(GetAllRequest) returns(GetAllResponse){
+    option(google.api.http) = {
+      get: "/users/getAll"
+    };
+  }
+
+  rpc UpdateHost(UpdateHostRequest) returns(UpdateHostResponse){
+    option (google.api.http) = {
+      put: "/users/update"
+      body: "hostsRating"
+    };
+  }
+  rpc GetUserByUsernameAndPassword(LoginRequest) returns (LoginResponse){
+    option (google.api.http) = {
+      get: "/users/login/{username}/{password}"
+    };
+  }
+
 }
 
 message GetRequest {
@@ -21,9 +40,52 @@ message GetResponse{
   User user = 1;
 }
 
+message GetAllRequest{
+
+}
+
+message GetAllResponse {
+  repeated User users = 1;
+}
+
+message UpdateHostRequest{
+  HostsRating hostsRating = 1;
+}
+
+message UpdateHostResponse{
+  Host host = 1;
+}
+
+message LoginRequest{
+  string username = 1;
+  string password = 2;
+}
+
+message LoginResponse{
+  User user = 1;
+}
+
 message User {
   string id = 1;
   string firstName = 2;
   string lastName = 3;
   string role = 4;
+  string mark = 5;
 }
+
+message Host {
+  string id = 1;
+  string firstName = 2;
+  string lastName = 3;
+  string role = 4;
+  string avgRating = 5;
+}
+
+message HostsRating{
+  string hostId = 1;
+  string userId = 2;
+  string userFirstName = 3;
+  string userLastName = 4;
+  string rating = 5;
+}
+

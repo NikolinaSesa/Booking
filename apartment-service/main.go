@@ -1,9 +1,10 @@
 package main
 
 import (
-	"Booking/apartment-service/startup"
-	cfg "Booking/apartment-service/startup/config"
 	"fmt"
+
+	"github.com/NikolinaSesa/Booking/apartment-service/startup"
+	cfg "github.com/NikolinaSesa/Booking/apartment-service/startup/config"
 )
 
 func main() {

@@ -7,15 +7,15 @@ import (
 	"os/signal"
 	"syscall"
 
-	"Booking/apartment-service/application"
-	"Booking/apartment-service/domain"
-	"Booking/apartment-service/infrastructure/api"
-	"Booking/apartment-service/infrastructure/persistence"
-	"Booking/apartment-service/startup/config"
+	"github.com/NikolinaSesa/Booking/apartment-service/application"
+	"github.com/NikolinaSesa/Booking/apartment-service/domain"
+	"github.com/NikolinaSesa/Booking/apartment-service/infrastructure/api"
+	"github.com/NikolinaSesa/Booking/apartment-service/infrastructure/persistence"
+	"github.com/NikolinaSesa/Booking/apartment-service/startup/config"
 
 	"go.mongodb.org/mongo-driver/mongo"
 
-	apartment "Booking/apartment-service/proto"
+	apartment "github.com/NikolinaSesa/Booking/apartment-service/proto"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
