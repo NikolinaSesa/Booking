@@ -30,6 +30,19 @@ service UserService{
     };
   }
 
+  rpc UpdateApartment(UpdateApartmentRequest) returns (UpdateApartmentResponse){
+    option (google.api.http) = {
+      put: "/apartments/update"
+      body : "apartmentsRating"
+    };
+  }
+
+  rpc filterApartments(filterAllApartmentsRequest) returns(filterAllApartmentsResponse){
+    option(google.api.http) = {
+      get: "/apartments/filter/{lowerPrice}/{upperPrice}/{benefit}/{hostId}"
+    };
+  }
+
 }
 
 message GetRequest {
@@ -44,16 +57,35 @@ message GetAllRequest{
 
 }
 
+message filterAllApartmentsRequest{
+  string lowerPrice = 1;
+  string upperPrice = 2;
+  string benefit = 3;
+  string hostId = 4;
+}
+
 message GetAllResponse {
   repeated User users = 1;
+}
+
+message filterAllApartmentsResponse{
+  repeated Apartment apartments = 1;
 }
 
 message UpdateHostRequest{
   HostsRating hostsRating = 1;
 }
 
+message UpdateApartmentRequest{
+  ApartmentsRating apartmentsRating = 1;
+}
+
 message UpdateHostResponse{
   Host host = 1;
+}
+
+message UpdateApartmentResponse{
+  Apartment apartment = 1;
 }
 
 message LoginRequest{
@@ -81,8 +113,24 @@ message Host {
   string avgRating = 5;
 }
 
+message Apartment{
+  string id = 1;
+  string name = 2;
+  string location = 3;
+  string benefits = 4;
+  string generalPrice = 5;
+}
+
 message HostsRating{
   string hostId = 1;
+  string userId = 2;
+  string userFirstName = 3;
+  string userLastName = 4;
+  string rating = 5;
+}
+
+message ApartmentsRating{
+  string apartmentId = 1;
   string userId = 2;
   string userFirstName = 3;
   string userLastName = 4;
