@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 	"fmt"
+
 	"github.com/NikolinaSesa/Booking/user-service/application"
 	pb "github.com/NikolinaSesa/Booking/user-service/proto"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -74,5 +75,51 @@ func (h *UserHandler) GetUserByUsernameAndPassword(ctx context.Context, loginReq
 	}
 
 	fmt.Print("****************************************Tu sammm ", response.User.FirstName, response.User.LastName)
+	return response, nil
+}
+
+func (h *UserHandler) GetReservationsByGuestId(ctx context.Context, request *pb.GetReservationsByGuestIdRequest) (*pb.GetReservationsByGuestIdResponse, error) {
+	id := request.Id
+	objectId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+	Reservations, err := h.service.GetReservationsByGuestId(objectId)
+	if err != nil {
+		return nil, err
+	}
+	var ReseravtionsPb []*pb.Reservation
+
+	for _, reservation := range Reservations {
+		Apartment, err := h.service.GetApartment(reservation.ApartmentID)
+		if err != nil {
+			return nil, err
+		}
+		ReservationPb := mapReservation(reservation, Apartment)
+		ReseravtionsPb = append(ReseravtionsPb, ReservationPb)
+	}
+	response := &pb.GetReservationsByGuestIdResponse{
+		Reservations: ReseravtionsPb,
+	}
+	return response, nil
+}
+
+func (h *UserHandler) GetFlights(ctx context.Context, request *pb.GetFlightsRequest) (*pb.GetFlightsResponse, error) {
+	date := request.Date
+
+	Flights, err := h.service.GetFlightsByDeparture(date)
+	if err != nil {
+		return nil, err
+	}
+	var FlightsPb []*pb.Flight
+
+	for _, flight := range Flights {
+		FlightPb := mapFlight(flight)
+		FlightsPb = append(FlightsPb, FlightPb)
+	}
+
+	response := &pb.GetFlightsResponse{
+		Flights: FlightsPb,
+	}
 	return response, nil
 }

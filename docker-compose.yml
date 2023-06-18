@@ -26,6 +26,18 @@ services:
     networks:
       - network
 
+  flight-service:
+    image: flight_service
+    container_name: flight_service
+    build:
+      context: .
+      dockerfile: ./flight-service/Dockerfile
+    restart: on-failure
+    environment:
+      FLIGHT_SERVICE_ADDRESS: ${FLIGHT_SERVICE_ADDRESS}
+    networks:
+      - network
+
   api-gateway:
     image: api_gateway
     container_name: api_gateway

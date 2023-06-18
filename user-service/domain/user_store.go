@@ -19,4 +19,10 @@ type UserStore interface {
 	GetAllReservations() ([]*Reservation, error)
 	InsertReservation(reservation *Reservation) error
 	DeleteAllReservations()
+
+	GetReservationsByGuestId(guestId primitive.ObjectID) ([]*Reservation, error)
+
+	InsertFlight(flight *Flight) error
+	DeleteAllFlights()
+	GetFlightsByDeparture(departure string) ([]*Flight, error)
 }

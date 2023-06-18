@@ -14,22 +14,26 @@ const (
 	COLLECTION1 = "users"
 	COLLECTION2 = "apartments"
 	COLLECTION3 = "reservations"
+	COLLECTION4 = "flights"
 )
 
 type UserMongoDBStore struct {
 	users        *mongo.Collection
 	apartments   *mongo.Collection
 	reservations *mongo.Collection
+	flights      *mongo.Collection
 }
 
 func NewUserMongoDBStore(client *mongo.Client) domain.UserStore {
 	users := client.Database(DATABASE).Collection(COLLECTION1)
 	apartments := client.Database(DATABASE).Collection(COLLECTION2)
 	reservations := client.Database(DATABASE).Collection(COLLECTION3)
+	flights := client.Database(DATABASE).Collection(COLLECTION4)
 	return &UserMongoDBStore{
 		users:        users,
 		apartments:   apartments,
 		reservations: reservations,
+		flights:      flights,
 	}
 }
 
@@ -106,6 +110,28 @@ func (s *UserMongoDBStore) DeleteAllReservations() {
 	s.reservations.DeleteMany(context.TODO(), bson.D{{}})
 }
 
+func (s *UserMongoDBStore) GetReservationsByGuestId(id primitive.ObjectID) ([]*domain.Reservation, error) {
+	filter := bson.M{"guestId": id}
+	return s.filterReservations(filter)
+}
+
+func (s *UserMongoDBStore) GetFlightsByDeparture(departure string) ([]*domain.Flight, error) {
+	filter := bson.M{"departure": departure}
+	return s.filterFlights(filter)
+}
+func (s *UserMongoDBStore) InsertFlight(flight *domain.Flight) error {
+	result, err := s.flights.InsertOne(context.TODO(), flight)
+	if err != nil {
+		return err
+	}
+	flight.ID = result.InsertedID.(primitive.ObjectID)
+	return nil
+}
+
+func (s *UserMongoDBStore) DeleteAllFlights() {
+	s.flights.DeleteMany(context.TODO(), bson.D{{}})
+}
+
 func (s *UserMongoDBStore) filter(filter interface{}) ([]*domain.User, error) {
 	cursor, err := s.users.Find(context.TODO(), filter)
 	defer cursor.Close(context.TODO())
@@ -134,6 +160,16 @@ func (s *UserMongoDBStore) filterReservations(filter interface{}) ([]*domain.Res
 		return nil, err
 	}
 	return decodeReservation(cursor)
+}
+
+func (s *UserMongoDBStore) filterFlights(filter interface{}) ([]*domain.Flight, error) {
+	cursor, err := s.flights.Find(context.TODO(), filter)
+	defer cursor.Close(context.TODO())
+
+	if err != nil {
+		return nil, err
+	}
+	return decodeFlights(cursor)
 }
 
 func (s *UserMongoDBStore) filterOne(filter interface{}) (User *domain.User, err error) {
@@ -188,6 +224,19 @@ func decodeReservation(cursor *mongo.Cursor) (reservations []*domain.Reservation
 			return
 		}
 		reservations = append(reservations, &Reservation)
+	}
+	err = cursor.Err()
+	return
+}
+
+func decodeFlights(cursor *mongo.Cursor) (flights []*domain.Flight, err error) {
+	for cursor.Next(context.TODO()) {
+		var Flight domain.Flight
+		err = cursor.Decode(&Flight)
+		if err != nil {
+			return
+		}
+		flights = append(flights, &Flight)
 	}
 	err = cursor.Err()
 	return

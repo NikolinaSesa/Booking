@@ -24,7 +24,9 @@ const (
 	UserService_UpdateHost_FullMethodName                   = "/UserService/UpdateHost"
 	UserService_GetUserByUsernameAndPassword_FullMethodName = "/UserService/GetUserByUsernameAndPassword"
 	UserService_UpdateApartment_FullMethodName              = "/UserService/UpdateApartment"
-	UserService_FilterApartments_FullMethodName             = "/UserService/filterApartments"
+	UserService_GetAllFilteredApartments_FullMethodName     = "/UserService/GetAllFilteredApartments"
+	UserService_GetReservationsByGuestId_FullMethodName     = "/UserService/GetReservationsByGuestId"
+	UserService_GetFlightsByReservationDate_FullMethodName  = "/UserService/GetFlightsByReservationDate"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -36,7 +38,9 @@ type UserServiceClient interface {
 	UpdateHost(ctx context.Context, in *UpdateHostRequest, opts ...grpc.CallOption) (*UpdateHostResponse, error)
 	GetUserByUsernameAndPassword(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	UpdateApartment(ctx context.Context, in *UpdateApartmentRequest, opts ...grpc.CallOption) (*UpdateApartmentResponse, error)
-	FilterApartments(ctx context.Context, in *FilterAllApartmentsRequest, opts ...grpc.CallOption) (*FilterAllApartmentsResponse, error)
+	GetAllFilteredApartments(ctx context.Context, in *FilterAllApartmentsRequest, opts ...grpc.CallOption) (*FilterAllApartmentsResponse, error)
+	GetReservationsByGuestId(ctx context.Context, in *GetReservationsByGuestIdRequest, opts ...grpc.CallOption) (*GetReservationsByGuestIdResponse, error)
+	GetFlightsByReservationDate(ctx context.Context, in *GetFlightsRequest, opts ...grpc.CallOption) (*GetFlightsResponse, error)
 }
 
 type userServiceClient struct {
@@ -92,9 +96,27 @@ func (c *userServiceClient) UpdateApartment(ctx context.Context, in *UpdateApart
 	return out, nil
 }
 
-func (c *userServiceClient) FilterApartments(ctx context.Context, in *FilterAllApartmentsRequest, opts ...grpc.CallOption) (*FilterAllApartmentsResponse, error) {
+func (c *userServiceClient) GetAllFilteredApartments(ctx context.Context, in *FilterAllApartmentsRequest, opts ...grpc.CallOption) (*FilterAllApartmentsResponse, error) {
 	out := new(FilterAllApartmentsResponse)
-	err := c.cc.Invoke(ctx, UserService_FilterApartments_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, UserService_GetAllFilteredApartments_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) GetReservationsByGuestId(ctx context.Context, in *GetReservationsByGuestIdRequest, opts ...grpc.CallOption) (*GetReservationsByGuestIdResponse, error) {
+	out := new(GetReservationsByGuestIdResponse)
+	err := c.cc.Invoke(ctx, UserService_GetReservationsByGuestId_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) GetFlightsByReservationDate(ctx context.Context, in *GetFlightsRequest, opts ...grpc.CallOption) (*GetFlightsResponse, error) {
+	out := new(GetFlightsResponse)
+	err := c.cc.Invoke(ctx, UserService_GetFlightsByReservationDate_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -110,7 +132,9 @@ type UserServiceServer interface {
 	UpdateHost(context.Context, *UpdateHostRequest) (*UpdateHostResponse, error)
 	GetUserByUsernameAndPassword(context.Context, *LoginRequest) (*LoginResponse, error)
 	UpdateApartment(context.Context, *UpdateApartmentRequest) (*UpdateApartmentResponse, error)
-	FilterApartments(context.Context, *FilterAllApartmentsRequest) (*FilterAllApartmentsResponse, error)
+	GetAllFilteredApartments(context.Context, *FilterAllApartmentsRequest) (*FilterAllApartmentsResponse, error)
+	GetReservationsByGuestId(context.Context, *GetReservationsByGuestIdRequest) (*GetReservationsByGuestIdResponse, error)
+	GetFlightsByReservationDate(context.Context, *GetFlightsRequest) (*GetFlightsResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -133,8 +157,14 @@ func (UnimplementedUserServiceServer) GetUserByUsernameAndPassword(context.Conte
 func (UnimplementedUserServiceServer) UpdateApartment(context.Context, *UpdateApartmentRequest) (*UpdateApartmentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateApartment not implemented")
 }
-func (UnimplementedUserServiceServer) FilterApartments(context.Context, *FilterAllApartmentsRequest) (*FilterAllApartmentsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FilterApartments not implemented")
+func (UnimplementedUserServiceServer) GetAllFilteredApartments(context.Context, *FilterAllApartmentsRequest) (*FilterAllApartmentsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllFilteredApartments not implemented")
+}
+func (UnimplementedUserServiceServer) GetReservationsByGuestId(context.Context, *GetReservationsByGuestIdRequest) (*GetReservationsByGuestIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetReservationsByGuestId not implemented")
+}
+func (UnimplementedUserServiceServer) GetFlightsByReservationDate(context.Context, *GetFlightsRequest) (*GetFlightsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetFlightsByReservationDate not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -239,20 +269,56 @@ func _UserService_UpdateApartment_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_FilterApartments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UserService_GetAllFilteredApartments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(FilterAllApartmentsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).FilterApartments(ctx, in)
+		return srv.(UserServiceServer).GetAllFilteredApartments(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserService_FilterApartments_FullMethodName,
+		FullMethod: UserService_GetAllFilteredApartments_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).FilterApartments(ctx, req.(*FilterAllApartmentsRequest))
+		return srv.(UserServiceServer).GetAllFilteredApartments(ctx, req.(*FilterAllApartmentsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_GetReservationsByGuestId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetReservationsByGuestIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetReservationsByGuestId(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_GetReservationsByGuestId_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetReservationsByGuestId(ctx, req.(*GetReservationsByGuestIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_GetFlightsByReservationDate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetFlightsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetFlightsByReservationDate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_GetFlightsByReservationDate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetFlightsByReservationDate(ctx, req.(*GetFlightsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -285,8 +351,16 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserService_UpdateApartment_Handler,
 		},
 		{
-			MethodName: "filterApartments",
-			Handler:    _UserService_FilterApartments_Handler,
+			MethodName: "GetAllFilteredApartments",
+			Handler:    _UserService_GetAllFilteredApartments_Handler,
+		},
+		{
+			MethodName: "GetReservationsByGuestId",
+			Handler:    _UserService_GetReservationsByGuestId_Handler,
+		},
+		{
+			MethodName: "GetFlightsByReservationDate",
+			Handler:    _UserService_GetFlightsByReservationDate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

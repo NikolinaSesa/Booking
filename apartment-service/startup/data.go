@@ -8,8 +8,8 @@ import (
 
 var apartments = []*domain.Apartment{
 	{
-		Id:                   primitive.NewObjectID(),
-		HostId:               primitive.NewObjectID(),
+		Id:                   getObjectId("648f2fb76a8458e27e56284e"),
+		HostId:               getObjectId("648f314999863f768f378307"),
 		Name:                 "Lux apartmani",
 		Location:             "Zlatibor",
 		Benefits:             "WiFi, Parking",
@@ -18,8 +18,8 @@ var apartments = []*domain.Apartment{
 		AutomaticReservation: false,
 	},
 	{
-		Id:                   primitive.NewObjectID(),
-		HostId:               primitive.NewObjectID(),
+		Id:                   getObjectId("648f2fb76a8458e27e562850"),
+		HostId:               getObjectId("648f314999863f768f378307"),
 		Name:                 "Apartmani Sunce",
 		Location:             "Zlatibor",
 		Benefits:             "WiFi, Parking, Bazen",
@@ -27,4 +27,11 @@ var apartments = []*domain.Apartment{
 		MaxGuestsNumber:      6,
 		AutomaticReservation: false,
 	},
+}
+
+func getObjectId(id string) primitive.ObjectID {
+	if objectId, err := primitive.ObjectIDFromHex(id); err == nil {
+		return objectId
+	}
+	return primitive.NewObjectID()
 }

@@ -42,3 +42,9 @@ func (s *UserService) GetAllApartments() ([]*domain.Apartment, error) {
 func (s *UserService) GetAllReservation() ([]*domain.Reservation, error) {
 	return s.store.GetAllReservations()
 }
+func (s *UserService) GetReservationsByGuestId(guestId primitive.ObjectID) ([]*domain.Reservation, error) {
+	return s.store.GetReservationsByGuestId(guestId)
+}
+func (s *UserService) GetFlightsByDeparture(departure string) ([]*domain.Flight, error) {
+	return s.store.GetFlightsByDeparture(departure)
+}

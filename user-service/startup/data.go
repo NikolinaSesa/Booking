@@ -7,7 +7,7 @@ import (
 
 var users = []*domain.User{
 	{
-		Id:        primitive.NewObjectID(),
+		Id:        getObjectId("648f314999863f768f378304"),
 		FirstName: "Nikolina",
 		LastName:  "Sesa",
 		Email:     "nikolinasesaa23@gmail.com",
@@ -18,7 +18,7 @@ var users = []*domain.User{
 		Mark:      "false",
 	},
 	{
-		Id:        primitive.NewObjectID(),
+		Id:        getObjectId("648f314999863f768f378305"),
 		FirstName: "Nenad",
 		LastName:  "Joldic",
 		Email:     "nenad123@gmail.com",
@@ -29,7 +29,7 @@ var users = []*domain.User{
 		Mark:      "false",
 	},
 	{
-		Id:        primitive.NewObjectID(),
+		Id:        getObjectId("648f314999863f768f378306"),
 		FirstName: "Bogdan",
 		LastName:  "Blagojevic",
 		Email:     "boki123@gmail.com",
@@ -40,7 +40,7 @@ var users = []*domain.User{
 		Mark:      "false",
 	},
 	{
-		Id:        primitive.NewObjectID(),
+		Id:        getObjectId("648f314999863f768f378307"),
 		FirstName: "Srdjan",
 		LastName:  "Tosic",
 		Email:     "srkitosic123@gmail.com",
@@ -52,11 +52,13 @@ var users = []*domain.User{
 	},
 }
 
-/*
+var reservations = []*domain.Reservation{
+	{},
+}
+
 func getObjectId(id string) primitive.ObjectID {
 	if objectId, err := primitive.ObjectIDFromHex(id); err == nil {
 		return objectId
 	}
 	return primitive.NewObjectID()
 }
-*/

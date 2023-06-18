@@ -80,3 +80,12 @@ type Reservation struct {
 	EndDate      string             `bson:"endDate"`
 	GuestsNumber int                `bson:"guestsNumber"`
 }
+
+type Flight struct {
+	ID                primitive.ObjectID `bson:"_id, omitempty"`
+	Departure         string             `bson:"departure"`
+	DeparturePlace    string             `bson:"departurePlace"`
+	ArrivalPlace      string             `bson:"arrivalPlace"`
+	Price             int                `bson:"price"`
+	NumberOfFreeSeats int                `bson:"numberOfFreeSeats"`
+}
