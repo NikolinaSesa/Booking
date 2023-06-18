@@ -23,6 +23,8 @@ const (
 	UserService_GetAll_FullMethodName                       = "/UserService/GetAll"
 	UserService_UpdateHost_FullMethodName                   = "/UserService/UpdateHost"
 	UserService_GetUserByUsernameAndPassword_FullMethodName = "/UserService/GetUserByUsernameAndPassword"
+	UserService_UpdateApartment_FullMethodName              = "/UserService/UpdateApartment"
+	UserService_FilterApartments_FullMethodName             = "/UserService/filterApartments"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -33,6 +35,8 @@ type UserServiceClient interface {
 	GetAll(ctx context.Context, in *GetAllRequest, opts ...grpc.CallOption) (*GetAllResponse, error)
 	UpdateHost(ctx context.Context, in *UpdateHostRequest, opts ...grpc.CallOption) (*UpdateHostResponse, error)
 	GetUserByUsernameAndPassword(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
+	UpdateApartment(ctx context.Context, in *UpdateApartmentRequest, opts ...grpc.CallOption) (*UpdateApartmentResponse, error)
+	FilterApartments(ctx context.Context, in *FilterAllApartmentsRequest, opts ...grpc.CallOption) (*FilterAllApartmentsResponse, error)
 }
 
 type userServiceClient struct {
@@ -79,6 +83,24 @@ func (c *userServiceClient) GetUserByUsernameAndPassword(ctx context.Context, in
 	return out, nil
 }
 
+func (c *userServiceClient) UpdateApartment(ctx context.Context, in *UpdateApartmentRequest, opts ...grpc.CallOption) (*UpdateApartmentResponse, error) {
+	out := new(UpdateApartmentResponse)
+	err := c.cc.Invoke(ctx, UserService_UpdateApartment_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) FilterApartments(ctx context.Context, in *FilterAllApartmentsRequest, opts ...grpc.CallOption) (*FilterAllApartmentsResponse, error) {
+	out := new(FilterAllApartmentsResponse)
+	err := c.cc.Invoke(ctx, UserService_FilterApartments_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -87,6 +109,8 @@ type UserServiceServer interface {
 	GetAll(context.Context, *GetAllRequest) (*GetAllResponse, error)
 	UpdateHost(context.Context, *UpdateHostRequest) (*UpdateHostResponse, error)
 	GetUserByUsernameAndPassword(context.Context, *LoginRequest) (*LoginResponse, error)
+	UpdateApartment(context.Context, *UpdateApartmentRequest) (*UpdateApartmentResponse, error)
+	FilterApartments(context.Context, *FilterAllApartmentsRequest) (*FilterAllApartmentsResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -105,6 +129,12 @@ func (UnimplementedUserServiceServer) UpdateHost(context.Context, *UpdateHostReq
 }
 func (UnimplementedUserServiceServer) GetUserByUsernameAndPassword(context.Context, *LoginRequest) (*LoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserByUsernameAndPassword not implemented")
+}
+func (UnimplementedUserServiceServer) UpdateApartment(context.Context, *UpdateApartmentRequest) (*UpdateApartmentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateApartment not implemented")
+}
+func (UnimplementedUserServiceServer) FilterApartments(context.Context, *FilterAllApartmentsRequest) (*FilterAllApartmentsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FilterApartments not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -191,6 +221,42 @@ func _UserService_GetUserByUsernameAndPassword_Handler(srv interface{}, ctx cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_UpdateApartment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateApartmentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).UpdateApartment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_UpdateApartment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).UpdateApartment(ctx, req.(*UpdateApartmentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_FilterApartments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FilterAllApartmentsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).FilterApartments(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_FilterApartments_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).FilterApartments(ctx, req.(*FilterAllApartmentsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -213,6 +279,14 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserByUsernameAndPassword",
 			Handler:    _UserService_GetUserByUsernameAndPassword_Handler,
+		},
+		{
+			MethodName: "UpdateApartment",
+			Handler:    _UserService_UpdateApartment_Handler,
+		},
+		{
+			MethodName: "filterApartments",
+			Handler:    _UserService_FilterApartments_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

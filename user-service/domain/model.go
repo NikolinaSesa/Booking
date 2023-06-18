@@ -18,18 +18,33 @@ type Rating struct {
 	Rating  int       `bson:"rating"`
 }
 
+type NotificationType byte
+
+const (
+	NewRating NotificationType = iota
+	NewApartmentRating
+)
+
+type Notification struct {
+	Message string           `bson:"message"`
+	SendAt  time.Time        `bson:"sendAt"`
+	On      bool             `bson:"on"`
+	Type    NotificationType `bson:"type"`
+}
+
 type User struct {
-	Id        primitive.ObjectID `bson:"_id"`
-	FirstName string             `bson:"firstName" json:"firstName"`
-	LastName  string             `bson:"lastName" json:"lastName"`
-	Email     string             `bson:"email" json:"email"`
-	Password  string             `bson:"password" json:"password"`
-	Username  string             `bson:"username" json:"username"`
-	Address   string             `bson:"address" json:"address"`
-	Role      string             `bson:"role" json:"role"`
-	Ratings   []Rating           `bson:"ratings"`
-	AvgRating float64            `bson:"avgRating"`
-	Mark      string             `bson:"mark"`
+	Id            primitive.ObjectID `bson:"_id"`
+	FirstName     string             `bson:"firstName" json:"firstName"`
+	LastName      string             `bson:"lastName" json:"lastName"`
+	Email         string             `bson:"email" json:"email"`
+	Password      string             `bson:"password" json:"password"`
+	Username      string             `bson:"username" json:"username"`
+	Address       string             `bson:"address" json:"address"`
+	Role          string             `bson:"role" json:"role"`
+	Ratings       []Rating           `bson:"ratings"`
+	AvgRating     float64            `bson:"avgRating"`
+	Mark          string             `bson:"mark"`
+	Notifications []Notification     `bson:"notifications"`
 }
 
 type Apartment struct {
