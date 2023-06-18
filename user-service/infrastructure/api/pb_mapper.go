@@ -11,6 +11,7 @@ func mapUser(user *domain.User) *pb.User {
 		FirstName: user.FirstName,
 		LastName:  user.LastName,
 		Role:      user.Role,
+		Mark:      user.Mark,
 	}
 	return userPb
 }

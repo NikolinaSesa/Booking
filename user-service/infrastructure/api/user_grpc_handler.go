@@ -3,7 +3,6 @@ package api
 import (
 	"context"
 	"fmt"
-
 	"github.com/NikolinaSesa/Booking/user-service/application"
 	pb "github.com/NikolinaSesa/Booking/user-service/proto"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -38,5 +37,25 @@ func (h *UserHandler) Get(ctx context.Context, request *pb.GetRequest) (*pb.GetR
 	}
 
 	fmt.Print("****************************************Tu sammm ", response.User.Id, response.User.FirstName)
+	return response, nil
+}
+
+func (h *UserHandler) GetAll(ctx context.Context, request *pb.GetAllRequest) (*pb.GetAllResponse, error) {
+
+	Users, err := h.service.GetAll()
+	if err != nil {
+		return nil, err
+	}
+	var Users2 []*pb.User
+
+	for _, user := range Users {
+		UserPb := mapUser(user)
+		Users2 = append(Users2, UserPb)
+	}
+
+	response := &pb.GetAllResponse{
+		Users: Users2,
+	}
+
 	return response, nil
 }
