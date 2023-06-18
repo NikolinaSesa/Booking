@@ -7,5 +7,6 @@ type UserStore interface {
 	GetAll() ([]*User, error)
 	Insert(user *User) error
 	DeleteAll()
+	GetUserByUsernameAndPassword(username string, password string) (*User, error)
 	//UpdateHostsRating(user *User) error
 }

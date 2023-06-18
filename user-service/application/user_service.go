@@ -22,3 +22,7 @@ func (s *UserService) Get(id primitive.ObjectID) (*domain.User, error) {
 func (s *UserService) GetAll() ([]*domain.User, error) {
 	return s.store.GetAll()
 }
+
+func (s *UserService) GetUserByUsernameAndPassword(username string, password string) (*domain.User, error) {
+	return s.store.GetUserByUsernameAndPassword(username, password)
+}
