@@ -1,0 +1,106 @@
+.wrapper {
+    padding: 5px 20px;
+    display:flex;
+    justify-content: center; 
+    text-align: center; 
+}
+
+.wrapper fieldset {
+    margin: 10px 0px;
+    border-width: 1px;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.15);
+    border-radius: 10px;
+    width: 450px;
+}
+
+.wrapper input{
+    padding:10px;
+    border: 0;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.15);
+    border-radius: 10px;
+    width: 300px;
+    font-size: medium;
+    font-style: italic;
+}
+
+
+
+.wrapper button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+.buttonorder    {
+    color: aquamarine;
+}
+.wrapper select{
+    width: 320px;
+    padding: 10px 5px;
+    border: 0;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.15);
+    border-radius: 10px;
+}
+
+.topnav {
+    overflow: hidden;
+    background-color: blue;
+}
+  
+.topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+  
+.topnav a:hover {
+    background-color: green;
+    color: green;
+}
+  
+.topnav a.active {
+    background-color: #04AA6D;
+    color: white;
+}
+html,
+body,
+.intro {
+  height: 100%;
+}
+
+.wrapper table td,
+.wrapper table th {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+ 
+}
+
+.card {
+  border-radius: .5rem;
+}
+
+button.request{
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    margin-left: 40%;
+    font-size: 16px;
+    width: 15%;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
