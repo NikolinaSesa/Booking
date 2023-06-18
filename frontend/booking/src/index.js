@@ -7,6 +7,8 @@ import reportWebVitals from './reportWebVitals';
 import Login from './components/Login';
 import GuestHomepage from './components/GuestHomepage';
 import HostHomepage from './components/HostHomepage';
+import UserProfile from './components/UserProfile';
+
 
 // const root = ReactDOM.createRoot(document.getElementById('root'));
 // root.render(
@@ -25,6 +27,8 @@ ReactDOM.render(
         <Route path='/' element={<Login/>}/>
         <Route path='/GuestHomepage' element={<GuestHomepage/>}/>
         <Route path='/HostHomepage' element={<HostHomepage/>}/>
+        <Route path='/UserProfile' element={<UserProfile/>}/>
+    
     
 
         

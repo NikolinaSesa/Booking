@@ -15,16 +15,17 @@ const GuestHomepage = () => {
   useEffect(()=>{
 
     fetch("http://localhost:8000/users/getAll",{
+        method:"GET",
       headers : { 
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        "method":"GET",
        },
     })
     .then(res =>res.json())
     .then((result)=>
     {
         setHosts(result);
+        console.log(hosts);
     }
     )
   }, [])
@@ -65,17 +66,20 @@ const deleteOrder = (e) =>{
             <div className='wrapper'>
                 <table>
                     <tr>
-                        <th>Order id</th>
-                        <th>Delivery address</th>
-                        <th>City</th>
-                        <th>Delivery date</th>
-                        <th>Total price of order</th>
-                        <th>Order status</th>
+                        <th>User id</th>
+                        <th>First name </th>
+                        <th>Last name</th>
+                        <th>Status</th>
+                        
                     </tr>
                     {hosts.map((val, key) => {
                         return(
                             <tr key={key} >
                                 <td>{val.users.id}</td>
+                                <td>{val.users.firstName}</td>
+                                <td>{val.users.lastName}</td>
+                                <td>{val.users.mark}</td>
+                              
                               
                                 <td>
                                     <button onClick={(e) => {
