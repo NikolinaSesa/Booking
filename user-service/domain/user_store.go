@@ -9,4 +9,14 @@ type UserStore interface {
 	DeleteAll()
 	GetUserByUsernameAndPassword(username string, password string) (*User, error)
 	//UpdateHostsRating(user *User) error
+
+	GetApartment(id primitive.ObjectID) (*Apartment, error)
+	GetAllApartments() ([]*Apartment, error)
+	InsertApartment(apartment *Apartment) error
+	DeleteAllApartments()
+
+	GetReservation(id primitive.ObjectID) (*Reservation, error)
+	GetAllReservations() ([]*Reservation, error)
+	InsertReservation(reservation *Reservation) error
+	DeleteAllReservations()
 }

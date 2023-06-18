@@ -26,3 +26,19 @@ func (s *UserService) GetAll() ([]*domain.User, error) {
 func (s *UserService) GetUserByUsernameAndPassword(username string, password string) (*domain.User, error) {
 	return s.store.GetUserByUsernameAndPassword(username, password)
 }
+
+func (s *UserService) GetApartment(id primitive.ObjectID) (*domain.Apartment, error) {
+	return s.store.GetApartment(id)
+}
+
+func (s *UserService) GetReservation(id primitive.ObjectID) (*domain.Reservation, error) {
+	return s.store.GetReservation(id)
+}
+
+func (s *UserService) GetAllApartments() ([]*domain.Apartment, error) {
+	return s.store.GetAllApartments()
+}
+
+func (s *UserService) GetAllReservation() ([]*domain.Reservation, error) {
+	return s.store.GetAllReservations()
+}

@@ -26,7 +26,5 @@ type PriceListItem struct {
 	AvailabilityStartDate string `bson:"availabilityStartDate" json:"availabilityStartDate"`
 	AvailabilityEndDate   string `bson:"availabilityEndDate" json:"availabilityEndDate"`
 	Price                 int    `bson:"price" json:"price"`
-	UnitPrice             Unit   `bson:"unitPrice" json:"unitPrice"`
+	UnitPrice             int    `bson:"unitPrice" json:"unitPrice"`
 }
-
-type Unit int
