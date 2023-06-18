@@ -15,6 +15,7 @@ var users = []*domain.User{
 		Username:  "nikolina",
 		Address:   "Nikole Tesle 45, Novi Sad",
 		Role:      "GUEST",
+		Mark:      "false",
 	},
 	{
 		Id:        primitive.NewObjectID(),
@@ -25,6 +26,7 @@ var users = []*domain.User{
 		Username:  "nenad",
 		Address:   "Micurinova 3, Novi Sad",
 		Role:      "GUEST",
+		Mark:      "false",
 	},
 	{
 		Id:        primitive.NewObjectID(),
@@ -35,6 +37,7 @@ var users = []*domain.User{
 		Username:  "boki",
 		Address:   "Rumenacka 55, Novi Sad",
 		Role:      "GUEST",
+		Mark:      "false",
 	},
 	{
 		Id:        primitive.NewObjectID(),
@@ -45,6 +48,7 @@ var users = []*domain.User{
 		Username:  "srki",
 		Address:   "Bele Njive 66, Novi Sad",
 		Role:      "HOST",
+		Mark:      "true",
 	},
 }
 

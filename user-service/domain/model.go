@@ -29,5 +29,5 @@ type User struct {
 	Role      string             `bson:"role" json:"role"`
 	Ratings   []Rating           `bson:"ratings"`
 	AvgRating float64            `bson:"avgRating"`
-	Mark      bool               `bson:"mark"`
+	Mark      string             `bson:"mark"`
 }
