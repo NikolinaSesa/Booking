@@ -14,6 +14,7 @@ type UserStore interface {
 	GetAllApartments() ([]*Apartment, error)
 	InsertApartment(apartment *Apartment) error
 	DeleteAllApartments()
+	GetAllFilteredApartments(lowerPrice int, upperPrice int, benefit string, hostId primitive.ObjectID) ([]*Apartment, error)
 
 	GetReservation(id primitive.ObjectID) (*Reservation, error)
 	GetAllReservations() ([]*Reservation, error)

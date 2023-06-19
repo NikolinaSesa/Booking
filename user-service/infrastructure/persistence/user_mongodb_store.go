@@ -2,6 +2,7 @@ package persistence
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/NikolinaSesa/Booking/user-service/domain"
 	"go.mongodb.org/mongo-driver/bson"
@@ -104,6 +105,14 @@ func (s *UserMongoDBStore) DeleteAllApartments() {
 
 func (s *UserMongoDBStore) DeleteAllReservations() {
 	s.reservations.DeleteMany(context.TODO(), bson.D{{}})
+}
+
+func (s *UserMongoDBStore) GetAllFilteredApartments(lowerPrice int, upperPrice int, benefit string, hostId primitive.ObjectID) ([]*domain.Apartment, error) {
+	fmt.Println("****************************************EEEE ", lowerPrice, upperPrice, benefit, hostId)
+	filter := bson.M{"hostId": hostId, "benefits": benefit, "generalPrice": bson.M{"$gte": lowerPrice, "$lte": upperPrice}}
+	//filter := bson.M{"hostId": hostId, "benefits": benefit, "generalPrice": bson.M{"$gte": lowerPrice}}
+	//filter := bson.M{"hostId": hostId, "benefits": benefit, "generalPrice": lowerPrice}
+	return s.filterApartments(filter)
 }
 
 func (s *UserMongoDBStore) filter(filter interface{}) ([]*domain.User, error) {

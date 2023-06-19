@@ -6,6 +6,7 @@ import (
 	"github.com/NikolinaSesa/Booking/user-service/application"
 	pb "github.com/NikolinaSesa/Booking/user-service/proto"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"strconv"
 )
 
 type UserHandler struct {
@@ -74,5 +75,31 @@ func (h *UserHandler) GetUserByUsernameAndPassword(ctx context.Context, loginReq
 	}
 
 	fmt.Print("****************************************Tu sammm ", response.User.FirstName, response.User.LastName)
+	return response, nil
+}
+
+func (h *UserHandler) GetAllFilteredApartments(ctx context.Context, filterAllApartmentsRequest *pb.FilterAllApartmentsRequest) (*pb.FilterAllApartmentsResponse, error) {
+	lowerPrice, err := strconv.Atoi(filterAllApartmentsRequest.LowerPrice)
+	upperPrice, err := strconv.Atoi(filterAllApartmentsRequest.UpperPrice)
+	benefit := filterAllApartmentsRequest.Benefit
+	hostId, err := primitive.ObjectIDFromHex(filterAllApartmentsRequest.HostId)
+
+	Apartments, err := h.service.GetAllFilteredApartments(lowerPrice, upperPrice, benefit, hostId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var Apartments2 []*pb.Apartment
+
+	for _, apartment := range Apartments {
+		ApartmentPb := mapApartment(apartment)
+		Apartments2 = append(Apartments2, ApartmentPb)
+	}
+
+	response := &pb.FilterAllApartmentsResponse{
+		Apartments: Apartments2,
+	}
+
 	return response, nil
 }

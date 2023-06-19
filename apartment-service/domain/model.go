@@ -14,6 +14,7 @@ type Apartment struct {
 	MaxGuestsNumber      int                `bson:"maxGuestsNumber" json:"maxGuestsNumber"`
 	AutomaticReservation bool               `bson:"automaticReservation" json:"automaticReservation"`
 	PriceList            []*PriceListItem   `bson:"pricelist" json:"pricelist"`
+	GeneralPrice         int                `bson:"generalPrice" json:"generalPrice"`
 }
 
 type AvailableApartment struct {
