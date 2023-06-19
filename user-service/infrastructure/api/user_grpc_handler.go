@@ -76,3 +76,14 @@ func (h *UserHandler) GetUserByUsernameAndPassword(ctx context.Context, loginReq
 	fmt.Print("****************************************Tu sammm ", response.User.FirstName, response.User.LastName)
 	return response, nil
 }
+
+func (h *UserHandler) UpdateHost(ctx context.Context, request *pb.UpdateHostRequest) (*pb.UpdateHostResponse, error) {
+	hostRating := mapHostRating2(request.HostsRating)
+	User, err := h.service.UpdateHost(hostRating)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.UpdateHostResponse{
+		Host: mapHostRating(User),
+	}, nil
+}

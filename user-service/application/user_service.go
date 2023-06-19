@@ -27,6 +27,11 @@ func (s *UserService) GetUserByUsernameAndPassword(username string, password str
 	return s.store.GetUserByUsernameAndPassword(username, password)
 }
 
+func (s *UserService) UpdateHost(hostRating *domain.HostRating) (*domain.User, error) {
+	return s.store.UpdateHost(hostRating)
+
+}
+
 func (s *UserService) GetApartment(id primitive.ObjectID) (*domain.Apartment, error) {
 	return s.store.GetApartment(id)
 }

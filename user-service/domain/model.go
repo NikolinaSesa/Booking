@@ -80,3 +80,11 @@ type Reservation struct {
 	EndDate      string             `bson:"endDate"`
 	GuestsNumber int                `bson:"guestsNumber"`
 }
+
+type HostRating struct {
+	HostId        primitive.ObjectID `bson:"_id"`
+	UserId        primitive.ObjectID `bson:"userId"`
+	UserFirstName string             `bson:"userFirstName"`
+	UserLastName  string             `bson:"userLastName"`
+	Rating        string             `bson:"rating"`
+}
