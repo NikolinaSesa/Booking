@@ -2,7 +2,13 @@ package domain
 
 import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"time"
 )
+
+type Rating struct {
+	RatedAt time.Time `bson:"ratedAt"`
+	Rating  int       `bson:"rating"`
+}
 
 type Apartment struct {
 	Id                   primitive.ObjectID `bson:"_id" json:"id"`
@@ -14,7 +20,8 @@ type Apartment struct {
 	MaxGuestsNumber      int                `bson:"maxGuestsNumber" json:"maxGuestsNumber"`
 	AutomaticReservation bool               `bson:"automaticReservation" json:"automaticReservation"`
 	PriceList            []*PriceListItem   `bson:"pricelist" json:"pricelist"`
-	GeneralPrice         int                `bson:"generalPrice" json:"generalPrice"`
+	GeneralPrice         string             `bson:"generalPrice" json:"generalPrice"`
+	Ratings              []Rating           `bson:"ratings"`
 }
 
 type AvailableApartment struct {

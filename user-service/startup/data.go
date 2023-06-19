@@ -16,6 +16,12 @@ var users = []*domain.User{
 		Address:   "Nikole Tesle 45, Novi Sad",
 		Role:      "GUEST",
 		Mark:      "false",
+		Ratings: []domain.Rating{
+			{
+				Rating: 1,
+			},
+		},
+		AvgRating: 1.0,
 	},
 	{
 		Id:        primitive.NewObjectID(),
@@ -58,3 +64,14 @@ func getObjectId(id string) primitive.ObjectID {
 	}
 	return primitive.NewObjectID()
 }
+<<<<<<< HEAD
+=======
+*/
+
+func getObjectId(id string) primitive.ObjectID {
+	if objectId, err := primitive.ObjectIDFromHex(id); err == nil {
+		return objectId
+	}
+	return primitive.NewObjectID()
+}
+>>>>>>> origin/update-proto

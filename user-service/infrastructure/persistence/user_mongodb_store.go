@@ -2,12 +2,13 @@ package persistence
 
 import (
 	"context"
+	"errors"
 	"fmt"
-
 	"github.com/NikolinaSesa/Booking/user-service/domain"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"strconv"
 )
 
 const (
@@ -76,6 +77,96 @@ func (s *UserMongoDBStore) Insert(user *domain.User) error {
 	}
 	user.Id = result.InsertedID.(primitive.ObjectID)
 	return nil
+}
+
+func (s *UserMongoDBStore) UpdateHost(hostRating *domain.HostRating) (*domain.User, error) {
+	fmt.Println("################################ ", hostRating.UserFirstName, " #######################")
+
+	filter := bson.M{"_id": hostRating.HostId}
+
+	host, _ := s.filterOne(filter)
+
+	var structa domain.Rating
+
+	number, _ := strconv.ParseInt(hostRating.Rating, 10, 64)
+
+	structa.Rating = int(number)
+
+	host.Ratings = append(host.Ratings, structa)
+
+	var avg = 0.0
+
+	for i := 0; i < len(host.Ratings); i++ {
+		var rating float64 = float64(host.Ratings[i].Rating)
+		avg += rating
+	}
+
+	avg = avg / (float64(len(host.Ratings)))
+
+	result, err := s.users.UpdateOne(
+		context.TODO(),
+		bson.M{"_id": hostRating.HostId},
+		bson.D{
+			{"$set", bson.D{{"firstName", hostRating.UserFirstName}}},
+			{"$set", bson.D{{"ratings", host.Ratings}}},
+			{"$set", bson.D{{"avgRating", avg}}},
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MatchedCount != 1 {
+		return nil, errors.New("one document should've been updated")
+	}
+
+	filter2 := bson.M{"_id": hostRating.HostId}
+	return s.filterOne(filter2)
+}
+
+func (s *UserMongoDBStore) UpdateApartment(apartmentRating *domain.ApartmentRating) (*domain.Apartment, error) {
+	fmt.Println("################################ ", apartmentRating.UserFirstName, " #######################")
+
+	filter := bson.M{"_id": apartmentRating.ApartmentId}
+
+	apartment, _ := s.filterOneApartment(filter)
+
+	var structa domain.RatingApartment
+
+	number, _ := strconv.ParseInt(apartmentRating.Rating, 10, 64)
+
+	structa.Rating = int(number)
+
+	apartment.Ratings = append(apartment.Ratings, structa)
+
+	var avg = 0.0
+
+	for i := 0; i < len(apartment.Ratings); i++ {
+		var rating float64 = float64(apartment.Ratings[i].Rating)
+		avg += rating
+	}
+
+	avg = avg / (float64(len(apartment.Ratings)))
+
+	result, err := s.apartments.UpdateOne(
+		context.TODO(),
+		bson.M{"_id": apartmentRating.ApartmentId},
+		bson.D{
+			//{"$set", bson.D{{"name", apartmentRating.UserFirstName}}},
+			{"$set", bson.D{{"ratings", apartment.Ratings}}},
+			{"$set", bson.D{{"avgRating", avg}}},
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MatchedCount != 1 {
+		return nil, errors.New("one document should've been updated")
+	}
+
+	filter2 := bson.M{"_id": apartmentRating.ApartmentId}
+	return s.filterOneApartment(filter2)
 }
 
 func (s *UserMongoDBStore) InsertApartment(apartment *domain.Apartment) error {
