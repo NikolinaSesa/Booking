@@ -5,21 +5,22 @@ export default function Login(){
 
   const[username, setUserName] = useState('');
   const[password, setPassword] = useState('');
-  const[user1, setUser1] = useState([])
+  const[user1, setUser1] = useState()
 
   
 
   const handleSubmit = (e) =>{
 e.preventDefault()
     fetch("http://localhost:8000/users/login/" + username + "/" +password ,{
-      method:"GET",
+      method:"get",
       headers:{
-      "Access-Control-Allow-Origin": "*"
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
       },
       
     }).then(res => res.json()).then((result)=>
     {
-      result.addHeader("Access-Control-Allow-Origin")
+      //result.addHeader("Access-Control-Allow-Origin")
       setUser1(result)
 
     console.log(result)
