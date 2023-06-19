@@ -71,10 +71,11 @@ func mapApartmentRating2(apartmentRatingPb *pb.ApartmentsRating) *domain.Apartme
 
 func mapApartment(apartment *domain.Apartment) *pb.Apartment {
 	apartmentPb := &pb.Apartment{
-		Id:       apartment.Id.Hex(),
-		Name:     apartment.Name,
-		Location: apartment.Location,
-		Benefits: apartment.Benefits,
+		Id:           apartment.Id.Hex(),
+		Name:         apartment.Name,
+		Location:     apartment.Location,
+		Benefits:     apartment.Benefits,
+		GeneralPrice: apartment.GeneralPrice,
 	}
 	return apartmentPb
 }

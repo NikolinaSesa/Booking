@@ -14,8 +14,8 @@ var users = []*domain.User{
 		Password:  "123",
 		Username:  "nikolina",
 		Address:   "Nikole Tesle 45, Novi Sad",
-		Role:      "GUEST",
-		Mark:      "false",
+		Role:      "HOST",
+		Mark:      "true",
 		Ratings: []domain.Rating{
 			{
 				Rating: 1,
@@ -24,7 +24,7 @@ var users = []*domain.User{
 		AvgRating: 1.0,
 	},
 	{
-		Id:        primitive.NewObjectID(),
+		Id:        getObjectId("648f314999863f768f378305"),
 		FirstName: "Nenad",
 		LastName:  "Joldic",
 		Email:     "nenad123@gmail.com",
@@ -54,7 +54,7 @@ var users = []*domain.User{
 		Username:  "srki",
 		Address:   "Bele Njive 66, Novi Sad",
 		Role:      "HOST",
-		Mark:      "true",
+		Mark:      "false",
 	},
 }
 
@@ -63,4 +63,71 @@ func getObjectId(id string) primitive.ObjectID {
 		return objectId
 	}
 	return primitive.NewObjectID()
+}
+
+var reservations = []*domain.Reservation{
+	{
+		ID:           primitive.NewObjectID(),
+		GuestID:      getObjectId("648f314999863f768f378305"),
+		ApartmentID:  primitive.NewObjectID(),
+		StartDate:    "30-5-2023",
+		EndDate:      "24-6-2023",
+		GuestsNumber: 50,
+	},
+	{
+		ID:           primitive.NewObjectID(),
+		GuestID:      primitive.NewObjectID(),
+		ApartmentID:  primitive.NewObjectID(),
+		StartDate:    "30-5-2023",
+		EndDate:      "24-6-2023",
+		GuestsNumber: 50,
+	},
+	{
+		ID:           primitive.NewObjectID(),
+		GuestID:      getObjectId("648f314999863f768f378305"),
+		ApartmentID:  primitive.NewObjectID(),
+		StartDate:    "30-5-2023",
+		EndDate:      "24-6-2023",
+		GuestsNumber: 50,
+	},
+	{
+		ID:           primitive.NewObjectID(),
+		GuestID:      primitive.NewObjectID(),
+		ApartmentID:  primitive.NewObjectID(),
+		StartDate:    "30-5-2023",
+		EndDate:      "24-6-2023",
+		GuestsNumber: 50,
+	},
+	{
+		ID:           primitive.NewObjectID(),
+		GuestID:      getObjectId("648f314999863f768f378305"),
+		ApartmentID:  primitive.NewObjectID(),
+		StartDate:    "30-5-2023",
+		EndDate:      "24-6-2023",
+		GuestsNumber: 50,
+	},
+	{
+		ID:           primitive.NewObjectID(),
+		GuestID:      getObjectId("648f314999863f768f378305"),
+		ApartmentID:  primitive.NewObjectID(),
+		StartDate:    "30-5-2023",
+		EndDate:      "24-6-2023",
+		GuestsNumber: 50,
+	},
+	{
+		ID:           primitive.NewObjectID(),
+		GuestID:      getObjectId("648f314999863f768f378305"),
+		ApartmentID:  primitive.NewObjectID(),
+		StartDate:    "30-5-2023",
+		EndDate:      "24-6-2023",
+		GuestsNumber: 50,
+	},
+	{
+		ID:           primitive.NewObjectID(),
+		GuestID:      primitive.NewObjectID(),
+		ApartmentID:  primitive.NewObjectID(),
+		StartDate:    "30-5-2023",
+		EndDate:      "24-6-2023",
+		GuestsNumber: 50,
+	},
 }

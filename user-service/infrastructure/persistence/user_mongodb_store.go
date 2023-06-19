@@ -207,10 +207,24 @@ func (s *UserMongoDBStore) DeleteAllReservations() {
 
 func (s *UserMongoDBStore) GetAllFilteredApartments(lowerPrice int, upperPrice int, benefit string, hostId primitive.ObjectID) ([]*domain.Apartment, error) {
 	fmt.Println("****************************************EEEE ", lowerPrice, upperPrice, benefit, hostId)
-	filter := bson.M{"hostId": hostId, "benefits": benefit, "generalPrice": bson.M{"$gte": lowerPrice, "$lte": upperPrice}}
+	filter := bson.M{"hostId": hostId, "benefits": benefit}
+	var apartments []*domain.Apartment
+	apartments, _ = s.filterApartments(filter)
+	if apartments != nil {
+
+	}
+	var apartmentsToSend []*domain.Apartment
+	for i := 0; i < len(apartments); i++ {
+		number, _ := strconv.ParseInt(apartments[i].GeneralPrice, 10, 64)
+		fmt.Println("################################### ", number, " ###################################")
+		fmt.Println("################################### nepotrebna provera:  ", apartments[i].GeneralPrice, " ###################################")
+		if int(number) >= lowerPrice && int(number) <= upperPrice {
+			apartmentsToSend = append(apartmentsToSend, apartments[i])
+		}
+	}
 	//filter := bson.M{"hostId": hostId, "benefits": benefit, "generalPrice": bson.M{"$gte": lowerPrice}}
 	//filter := bson.M{"hostId": hostId, "benefits": benefit, "generalPrice": lowerPrice}
-	return s.filterApartments(filter)
+	return apartmentsToSend, nil
 }
 
 func (s *UserMongoDBStore) filter(filter interface{}) ([]*domain.User, error) {
