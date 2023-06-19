@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 
 function UserProfile(){
     let { id } = useParams();
-    var [order, setOrder] = useState('');
+    var [host, setHost] = useState('');
     var [address, setAddress] = useState('');
     var [city, setCity] = useState('');
     var [date, setDate] = useState('');
@@ -20,7 +20,7 @@ function UserProfile(){
 
     useEffect(() =>{
         var test = JSON.parse(localStorage.getItem('testToken'))
-        fetch("http://localhost:8081/api/orders/" + id, {
+        fetch("http://localhost:8000/users/user/" + id, {
           method:"GET",
           headers:{
             "Content-Type":"application/json",
@@ -32,52 +32,13 @@ function UserProfile(){
         .then(res => res.json())
         .then((result) =>
         {
-            setOrder(result);
-            console.log(result)
+            setHost(result);
             
         }
         )
       },[])
     
       
-    const handleClick = (e) =>{
-        var test = JSON.parse(localStorage.getItem('testToken'))
-        e.preventDefault()
-        var admin = order;
-       
-        admin.city = city;
-        admin.date = date;
-        admin.address = address;
-        
-        
-    var orderedProducts = [
-
-        {
-          productId: productId,
-          quantity: quantity,
-        }
-      ]
-    var orderedProductsDTO = orderedProducts;
-    const new_order = {address, city, date,orderedProductsDTO}
-        console.log(admin);
-        fetch("http://localhost:8081/api/orders/update/" + id,{ 
-        method:"PUT",
-        headers:{
-            "Content-Type":"application/json",
-            'Accept': 'application/json',
-            Authorization: `Bearer ${test.accessToken}`,
-        },
-        body:JSON.stringify(new_order)
-    
-      }).then(() =>{
-        console.log("Order updated")
-        console.log(admin);
-        window.location.href = "/Orders"
-      })
-    }
-      
-    
-    
 
     return(
         <body>
@@ -101,25 +62,19 @@ function UserProfile(){
                 <label>
                     <p>First name</p>
                     <input  onChange={(e)=>setAddress(e.target.value)}
-                    placeholder={order.address}/>
+                    placeholder={host.user.firstName}/>
                 </label>
             </fieldset>
             <fieldset>
                 <label>
                     <p>Last name</p>
                     <input onChange={(e)=>setCity(e.target.value)}
-                    placeholder={order.city}/>
+                    placeholder={host.user.lastName}/>
                 </label>
             </fieldset>
-            <fieldset>
-               <label>
-                    <p>Date</p>
-                    <input type="date"  id="date" name="date" onChange={(e)=>setDate(e.target.value)}
-                    placeholder={order.date}/>
-                </label>
-            </fieldset>
+           
             
-            <button onClick={handleClick} className='update' type="submit">Submit</button>
+            <button  className='update' type="submit">Submit</button>
             </form>
             
         </div>

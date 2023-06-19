@@ -13,5 +13,5 @@ func main() {
 
 	config := config.NewConfig()
 	_ = startup.NewServer(config)
-	//server.Start()
+
 }

@@ -9,6 +9,7 @@ replace (
 
 require (
 	github.com/NikolinaSesa/Booking/user-service v0.0.0-00010101000000-000000000000
+	github.com/gorilla/mux v1.8.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.16.0
 	google.golang.org/grpc v1.56.0
 )

@@ -7,19 +7,22 @@ export default function Login(){
   const[password, setPassword] = useState('');
   const[user1, setUser1] = useState([])
 
+  
+
   const handleSubmit = (e) =>{
-    e.preventDefault()
-    fetch("http://localhost:8000/users/login/" +username+ "/"+password , {
-      headers : { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-   
-       },
+e.preventDefault()
+    fetch("http://localhost:8000/users/login/" + username + "/" +password ,{
+      method:"GET",
+      headers:{
+      "Access-Control-Allow-Origin": "*"
+      },
+      
     }).then(res => res.json()).then((result)=>
     {
-      setUser1(result);
+      result.addHeader("Access-Control-Allow-Origin")
+      setUser1(result)
 
-    console.log(user1);
+    console.log(result)
 
     }
     )
@@ -34,7 +37,7 @@ export default function Login(){
           <fieldset>
                 <label>
                     <p>User Name</p>
-                    <input id="userName" name="userName" onChange={(e)=>setUserName(e.target.value)}/>
+                    <input id="username" name="username" onChange={(e)=>setUserName(e.target.value)}/>
                 </label>
             </fieldset>
             <fieldset>
@@ -47,7 +50,7 @@ export default function Login(){
         </form>
       </div>
       <div className="wrapper">
-          Create an account? <a href="/DeliveryManagerHome">Sing Up</a>
+          Create an account? <a >Sing Up</a>
       </div>
     </body>
 
