@@ -78,7 +78,6 @@ func (h *UserHandler) GetUserByUsernameAndPassword(ctx context.Context, loginReq
 	return response, nil
 }
 
-<<<<<<< HEAD
 func (h *UserHandler) GetAllFilteredApartments(ctx context.Context, filterAllApartmentsRequest *pb.FilterAllApartmentsRequest) (*pb.FilterAllApartmentsResponse, error) {
 	lowerPrice, err := strconv.Atoi(filterAllApartmentsRequest.LowerPrice)
 	upperPrice, err := strconv.Atoi(filterAllApartmentsRequest.UpperPrice)
@@ -103,7 +102,8 @@ func (h *UserHandler) GetAllFilteredApartments(ctx context.Context, filterAllApa
 	}
 
 	return response, nil
-=======
+}
+
 func (h *UserHandler) UpdateHost(ctx context.Context, request *pb.UpdateHostRequest) (*pb.UpdateHostResponse, error) {
 	hostRating := mapHostRating2(request.HostsRating)
 	User, err := h.service.UpdateHost(hostRating)
@@ -124,5 +124,4 @@ func (h *UserHandler) UpdateApartment(ctx context.Context, request *pb.UpdateApa
 	return &pb.UpdateApartmentResponse{
 		Apartment: mapApartmentRating(Apartment2),
 	}, nil
->>>>>>> origin/update-proto
 }

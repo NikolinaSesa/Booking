@@ -64,14 +64,3 @@ func getObjectId(id string) primitive.ObjectID {
 	}
 	return primitive.NewObjectID()
 }
-<<<<<<< HEAD
-=======
-*/
-
-func getObjectId(id string) primitive.ObjectID {
-	if objectId, err := primitive.ObjectIDFromHex(id); err == nil {
-		return objectId
-	}
-	return primitive.NewObjectID()
-}
->>>>>>> origin/update-proto

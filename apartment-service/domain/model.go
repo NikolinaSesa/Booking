@@ -6,8 +6,10 @@ import (
 )
 
 type Rating struct {
-	RatedAt time.Time `bson:"ratedAt"`
-	Rating  int       `bson:"rating"`
+	RatedAt        time.Time `bson:"ratedAt"`
+	Rating         int       `bson:"rating"`
+	GuestFirstName string    `bson:"guestFirstName"`
+	GuestLastName  string    `bson:"guestLastName"`
 }
 
 type Apartment struct {

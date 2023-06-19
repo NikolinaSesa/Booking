@@ -13,14 +13,18 @@ type Guest struct {
 }
 
 type Rating struct {
-	Guest   Guest     `bson:"guest"`
-	RatedAt time.Time `bson:"ratedAt"`
-	Rating  int       `bson:"rating"`
+	Guest          Guest     `bson:"guest"`
+	RatedAt        time.Time `bson:"ratedAt"`
+	Rating         int       `bson:"rating"`
+	GuestFirstName string    `bson:"guestFirstName"`
+	GuestLastName  string    `bson:"guestLastName"`
 }
 
 type RatingApartment struct {
-	RatedAt time.Time `bson:"ratedAt"`
-	Rating  int       `bson:"rating"`
+	RatedAt        time.Time `bson:"ratedAt"`
+	Rating         int       `bson:"rating"`
+	GuestFirstName string    `bson:"guestFirstName"`
+	GuestLastName  string    `bson:"guestLastName"`
 }
 
 type NotificationType byte

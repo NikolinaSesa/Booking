@@ -3,11 +3,7 @@ package api
 import (
 	"github.com/NikolinaSesa/Booking/user-service/domain"
 	pb "github.com/NikolinaSesa/Booking/user-service/proto"
-<<<<<<< HEAD
-	"strconv"
-=======
 	"go.mongodb.org/mongo-driver/bson/primitive"
->>>>>>> origin/update-proto
 )
 
 func mapUser(user *domain.User) *pb.User {
@@ -21,9 +17,6 @@ func mapUser(user *domain.User) *pb.User {
 	return userPb
 }
 
-<<<<<<< HEAD
-func mapApartment(apartment *domain.Apartment) *pb.Apartment {
-=======
 func mapHostRating(user *domain.User) *pb.Host {
 	hostRatingPb := &pb.Host{
 		Id:        user.Id.Hex(),
@@ -34,15 +27,11 @@ func mapHostRating(user *domain.User) *pb.Host {
 }
 
 func mapApartmentRating(apartment *domain.Apartment) *pb.Apartment {
->>>>>>> origin/update-proto
 	apartmentPb := &pb.Apartment{
 		Id:           apartment.Id.Hex(),
 		Name:         apartment.Name,
 		Location:     apartment.Location,
 		Benefits:     apartment.Benefits,
-<<<<<<< HEAD
-		GeneralPrice: strconv.Itoa(apartment.GeneralPrice),
-=======
 		GeneralPrice: "test",
 	}
 	return apartmentPb
@@ -86,7 +75,6 @@ func mapApartment(apartment *domain.Apartment) *pb.Apartment {
 		Name:     apartment.Name,
 		Location: apartment.Location,
 		Benefits: apartment.Benefits,
->>>>>>> origin/update-proto
 	}
 	return apartmentPb
 }

@@ -9,6 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"strconv"
+	"time"
 )
 
 const (
@@ -87,6 +88,9 @@ func (s *UserMongoDBStore) UpdateHost(hostRating *domain.HostRating) (*domain.Us
 	host, _ := s.filterOne(filter)
 
 	var structa domain.Rating
+	structa.GuestFirstName = hostRating.UserFirstName
+	structa.GuestLastName = hostRating.UserLastName
+	structa.RatedAt = time.Now()
 
 	number, _ := strconv.ParseInt(hostRating.Rating, 10, 64)
 
@@ -132,6 +136,9 @@ func (s *UserMongoDBStore) UpdateApartment(apartmentRating *domain.ApartmentRati
 	apartment, _ := s.filterOneApartment(filter)
 
 	var structa domain.RatingApartment
+	structa.GuestFirstName = apartmentRating.UserFirstName
+	structa.GuestLastName = apartmentRating.UserLastName
+	structa.RatedAt = time.Now()
 
 	number, _ := strconv.ParseInt(apartmentRating.Rating, 10, 64)
 
