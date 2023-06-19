@@ -87,3 +87,14 @@ func (h *UserHandler) UpdateHost(ctx context.Context, request *pb.UpdateHostRequ
 		Host: mapHostRating(User),
 	}, nil
 }
+
+func (h *UserHandler) UpdateApartment(ctx context.Context, request *pb.UpdateApartmentRequest) (*pb.UpdateApartmentResponse, error) {
+	apartmentRating := mapApartmentRating2(request.ApartmentsRating)
+	Apartment2, err := h.service.UpdateApartment(apartmentRating)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.UpdateApartmentResponse{
+		Apartment: mapApartmentRating(Apartment2),
+	}, nil
+}

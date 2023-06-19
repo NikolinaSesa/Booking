@@ -124,6 +124,51 @@ func (s *UserMongoDBStore) UpdateHost(hostRating *domain.HostRating) (*domain.Us
 	return s.filterOne(filter2)
 }
 
+func (s *UserMongoDBStore) UpdateApartment(apartmentRating *domain.ApartmentRating) (*domain.Apartment, error) {
+	fmt.Println("################################ ", apartmentRating.UserFirstName, " #######################")
+
+	filter := bson.M{"_id": apartmentRating.ApartmentId}
+
+	apartment, _ := s.filterOneApartment(filter)
+
+	var structa domain.RatingApartment
+
+	number, _ := strconv.ParseInt(apartmentRating.Rating, 10, 64)
+
+	structa.Rating = int(number)
+
+	apartment.Ratings = append(apartment.Ratings, structa)
+
+	var avg = 0.0
+
+	for i := 0; i < len(apartment.Ratings); i++ {
+		var rating float64 = float64(apartment.Ratings[i].Rating)
+		avg += rating
+	}
+
+	avg = avg / (float64(len(apartment.Ratings)))
+
+	result, err := s.apartments.UpdateOne(
+		context.TODO(),
+		bson.M{"_id": apartmentRating.ApartmentId},
+		bson.D{
+			//{"$set", bson.D{{"name", apartmentRating.UserFirstName}}},
+			{"$set", bson.D{{"ratings", apartment.Ratings}}},
+			{"$set", bson.D{{"avgRating", avg}}},
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MatchedCount != 1 {
+		return nil, errors.New("one document should've been updated")
+	}
+
+	filter2 := bson.M{"_id": apartmentRating.ApartmentId}
+	return s.filterOneApartment(filter2)
+}
+
 func (s *UserMongoDBStore) InsertApartment(apartment *domain.Apartment) error {
 	result, err := s.apartments.InsertOne(context.TODO(), apartment)
 	if err != nil {

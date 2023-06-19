@@ -18,6 +18,11 @@ type Rating struct {
 	Rating  int       `bson:"rating"`
 }
 
+type RatingApartment struct {
+	RatedAt time.Time `bson:"ratedAt"`
+	Rating  int       `bson:"rating"`
+}
+
 type NotificationType byte
 
 const (
@@ -57,6 +62,8 @@ type Apartment struct {
 	MaxGuestsNumber      int                `bson:"maxGuestsNumber" json:"maxGuestsNumber"`
 	AutomaticReservation bool               `bson:"automaticReservation" json:"automaticReservation"`
 	PriceList            []*PriceListItem   `bson:"pricelist" json:"pricelist"`
+	GeneralPrice         string             `bson:"generalPrice" json:"generalPrice"`
+	Ratings              []RatingApartment  `bson:"ratings"`
 }
 
 type AvailableApartment struct {
@@ -83,6 +90,14 @@ type Reservation struct {
 
 type HostRating struct {
 	HostId        primitive.ObjectID `bson:"_id"`
+	UserId        primitive.ObjectID `bson:"userId"`
+	UserFirstName string             `bson:"userFirstName"`
+	UserLastName  string             `bson:"userLastName"`
+	Rating        string             `bson:"rating"`
+}
+
+type ApartmentRating struct {
+	ApartmentId   primitive.ObjectID `bson:"_id"`
 	UserId        primitive.ObjectID `bson:"userId"`
 	UserFirstName string             `bson:"userFirstName"`
 	UserLastName  string             `bson:"userLastName"`

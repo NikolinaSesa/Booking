@@ -16,6 +16,12 @@ var apartments = []*domain.Apartment{
 		MinGuestsNumber:      2,
 		MaxGuestsNumber:      6,
 		AutomaticReservation: false,
+		GeneralPrice:         "300",
+		Ratings: []domain.Rating{
+			{
+				Rating: 1,
+			},
+		},
 	},
 	{
 		Id:                   primitive.NewObjectID(),
@@ -26,5 +32,11 @@ var apartments = []*domain.Apartment{
 		MinGuestsNumber:      2,
 		MaxGuestsNumber:      6,
 		AutomaticReservation: false,
+		GeneralPrice:         "250",
+		Ratings: []domain.Rating{
+			{
+				Rating: 3,
+			},
+		},
 	},
 }
