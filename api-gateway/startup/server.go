@@ -24,7 +24,7 @@ type Server struct {
 func NewServer(config *cfg.Config) *Server {
 	server := &Server{
 		config: config,
-		mux:    runtime.NewServeMux(),
+		mux:    runtime.NewServeMux(runtime.WithMarshalerOption(runtime.MIMEWildcard, &runtime.JSONPb{})),
 	}
 	server.initHandlers()
 	return server
@@ -45,6 +45,7 @@ func (s *Server) initHandlers() {
 			panic(err)
 		}
 	*/
+
 	gwmux := runtime.NewServeMux()
 
 	//user-service

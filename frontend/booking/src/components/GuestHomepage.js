@@ -17,7 +17,7 @@ const GuestHomepage = () => {
     fetch("http://localhost:8000/users/getAll",{
         method:"GET",
       headers : { 
-        'Content-Type': 'application/json',
+       
         'Accept': 'application/json',
        },
     })

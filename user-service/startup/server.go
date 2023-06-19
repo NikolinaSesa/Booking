@@ -96,6 +96,7 @@ func (server *Server) startGrpcServer(userHandler *api.UserHandler) {
 	}(listener)
 
 	grpcServer := grpc.NewServer()
+
 	reflection.Register(grpcServer)
 
 	user.RegisterUserServiceServer(grpcServer, userHandler)
