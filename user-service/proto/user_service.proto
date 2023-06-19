@@ -37,15 +37,25 @@ service UserService{
     };
   }
 
-  rpc filterApartments(filterAllApartmentsRequest) returns(filterAllApartmentsResponse){
+  rpc GetAllFilteredApartments(FilterAllApartmentsRequest) returns(FilterAllApartmentsResponse){
     option(google.api.http) = {
       get: "/apartments/filter/{lowerPrice}/{upperPrice}/{benefit}/{hostId}"
     };
   }
 
+  rpc GetReservationsByGuestId(GetReservationsByGuestIdRequest) returns(GetReservationsByGuestIdResponse){
+    option(google.api.http) = {
+      get: "/reservations/getByGuestId/{id}"
+    };
+  }
+
+  rpc GetFlightsByReservationDate(GetFlightsRequest) returns(GetFlightsResponse){
+    option(google.api.http) = {
+      get: "/flights/getByReservationDate/{date}"
+    };
+  }
+
 }
-
-
 
 message GetRequest {
   string id = 1;
@@ -88,6 +98,21 @@ message UpdateApartmentResponse{
   Apartment apartment = 1;
 }
 
+message GetReservationsByGuestIdRequest{
+  string id = 1;
+}
+message GetReservationsByGuestIdResponse{
+  repeated Reservation reservations = 1;
+}
+
+message GetFlightsRequest{
+  string date = 1;
+}
+
+message GetFlightsResponse{
+  repeated Flight flights = 1;
+}
+
 message User {
   string id = 1;
   string firstName = 2;
@@ -112,14 +137,14 @@ message HostsRating{
   string rating = 5;
 }
 
-message filterAllApartmentsRequest{
+message FilterAllApartmentsRequest{
   string lowerPrice = 1;
   string upperPrice = 2;
   string benefit = 3;
   string hostId = 4;
 }
 
-message filterAllApartmentsResponse{
+message FilterAllApartmentsResponse{
   repeated Apartment apartments = 1;
 }
 
@@ -137,4 +162,21 @@ message ApartmentsRating{
   string userFirstName = 3;
   string userLastName = 4;
   string rating = 5;
+}
+
+message Reservation{
+  string id = 1;
+  Apartment apartment = 2;
+  string StartDate = 3;
+  string EndDate = 4;
+  string GuestsNumber = 5;
+}
+
+message Flight{
+  string id = 1;
+  string departure = 2;
+  string departurePlace = 3;
+  string arrivalPlace = 4;
+  string price = 5;
+  string numOfFreeSeats = 6;
 }

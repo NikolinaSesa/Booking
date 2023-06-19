@@ -27,6 +27,10 @@ func (s *UserService) GetUserByUsernameAndPassword(username string, password str
 	return s.store.GetUserByUsernameAndPassword(username, password)
 }
 
+func (s *UserService) GetAllFilteredApartments(lowerPrice int, upperPrice int, benefit string, hostId primitive.ObjectID) ([]*domain.Apartment, error) {
+	return s.store.GetAllFilteredApartments(lowerPrice, upperPrice, benefit, hostId)
+}
+
 func (s *UserService) GetApartment(id primitive.ObjectID) (*domain.Apartment, error) {
 	return s.store.GetApartment(id)
 }
